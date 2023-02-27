@@ -20,39 +20,54 @@
     <div class="container">
         <h1>Create Post</h1>
         <br>
-        <form action="" method="post">
+        <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data">
             @csrf
+            @method('post')
             <div class="mb-3 row">
                 <label for="staticEmail" class="col-sm-2 col-form-label">Post Title : </label>
                 <div class="col-sm-7">
-                    <input type="text" class="form-control" id="" placeholder="Title" name="title">
+                    <input type="text" class="form-control" id="" placeholder="Title" name="title"
+                        value="{{ old('title') }}">
+                    @error('title')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="inputPassword" class="col-sm-2 col-form-label">Post Description : </label>
                 <div class="col-sm-7">
-                    <textarea class="form-control" id="" rows="3" placeholder="Description" name="body"></textarea>
+                    <textarea class="form-control" id="" rows="3" placeholder="Description" name="body">{{ old('body') }}</textarea>
+                    @error('body')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <div class="mb-3 row">
                 <label for="formFile" class="col-sm-2 col-form-label">Post Image : </label>
                 <div class="col-sm-7">
-                    <input class="form-control" type="file" id="" name="post_image">
+                    <input class="form-control" type="file" id="" name="image"
+                        value="{{ old('image') }}">
+                    @error('image')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <div class="mb-3 row">
-                <label for="formFile" class="col-sm-2 col-form-label">User Id : </label>
+                <label for="formFile" class="col-sm-2 col-form-label">User Name : </label>
                 <div class="col-sm-7">
                     <select class="form-select" aria-label="Default select example" name="user_id">
                         <option value="" selected disabled>--Select User--</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endforeach
                     </select>
+                    @error('user_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
-            <div class="mb-5 row">
-                <button type="button" class="btn btn-primary">Create</button>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </form>
     </div>
